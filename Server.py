@@ -1,11 +1,9 @@
-import asyncio
 from threading import Thread
 
 from flask import Flask, request
 
 from Initializing.ClassInstances import signalController
 
-# rom Classes import AlertSignal, TradeSignal
 
 app = Flask(__name__)
 

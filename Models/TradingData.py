@@ -1,5 +1,5 @@
 class TradingData:
-    def __init__(self,asset,open,high,low,close,time,timeFrame):
+    def __init__(self, asset, open, high, low, close, time, timeFrame):
         self.asset = asset
         self.open = open
         self.high = high

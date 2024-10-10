@@ -2,5 +2,6 @@ from datetime import datetime
 
 
 class Monitoring:
-    def logInformation(self,info):
-        print(datetime.now(),":",info)
+    @staticmethod
+    def logInformation(info):
+        print(datetime.now(), ":", info)
