@@ -1,0 +1,11 @@
+{
+    "tradingData": {
+        "asset": "BTC",
+        "open": 175.30,
+        "high": 172.40,
+        "low": 176.00,
+        "close": 170.50,
+        "time": "13:30",
+        "timeFrame": "1H"
+    }
+}
