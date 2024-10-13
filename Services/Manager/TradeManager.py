@@ -12,8 +12,6 @@ class TradeManager:
 
     def handleTrades(self):
         pass
-        # for trade in Trades:
-        #     strategy = self._StrategyFactory.returnClass(trade.strategy)
 
     def findOpenTrades(self):
         assets = self._AssetManager.returnAssets()

@@ -6,12 +6,11 @@ class FVGSession(IStrategy):
     def __init__(self, name):
         self.name = name
         self._TimeWindow = LondonOpen()
-        self.level = []
         self.assetNameList = []
         self.entryStrategy = None
         self.exitStrategy = None
         self.pdArrays = []  # Centralized PD array management
-        self.safeDataDuration = 3  # Days of Data needed for Strategy
+        self.safeDataDuration = 0  # Days of Data needed for Strategy
 
     def addExitStrategy(self, exitStrategy):
         self.exitStrategy = exitStrategy
@@ -34,8 +33,8 @@ class FVGSession(IStrategy):
             return True
         return False
 
-    def getExit(self):
+    def getEntry(self):
         pass
 
-    def getEntry(self):
+    def getExit(self):
         pass

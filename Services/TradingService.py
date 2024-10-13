@@ -7,12 +7,10 @@ ny_tz = pytz.timezone('America/New_York')
 
 
 class TradingService:
-    def __init__(self, Monitoring, MongoDBData, MongoDBTrades, DataMapper, StrategyManager, AssetManager, TradeManager):
+    def __init__(self, Monitoring, MongoDBData, DataMapper, AssetManager, TradeManager):
         self._Monitoring = Monitoring
         self._MongoDBData = MongoDBData
-        self._MongoDBTrades = MongoDBTrades
         self._DataMapper = DataMapper
-        self._StrategyManager = StrategyManager
         self._AssetManager = AssetManager
         self._TradeManager = TradeManager
         self.lock_active = False  # Flag um den Status des Locks zu verfolgen
@@ -30,6 +28,8 @@ class TradingService:
                 # Dies wird nur einmal um 04:00 Uhr ausgeführt
                 self._TradeManager.clearOpenTrades()
                 self._TradeManager.findOpenTrades()
+                self.dailyDataArchive()
+                self.RecentDataRetriever()
                 self.lock_active = False  # Lock wieder deaktivieren nach der Ausführung
 
             else:
@@ -38,8 +38,6 @@ class TradingService:
         else:
             while self.lock_active:
                 time.sleep(1)
-            self.dailyDataArchive()
-            self.RecentDataRetriever()
 
     def RecentDataRetriever(self):
         assets = self._AssetManager.returnAssets()

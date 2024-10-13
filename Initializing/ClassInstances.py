@@ -54,7 +54,7 @@ riskManager = RiskManager(2, 1)
 
 tradeManager = TradeManager(assetManager, strategyManager, mongoDBTrades, monitoring, dataMapper)
 
-tradingService = TradingService(monitoring, mongoDBData, mongoDBTrades, dataMapper, strategyManager, assetManager,
+tradingService = TradingService(monitoring, mongoDBData, dataMapper, assetManager,
                                 tradeManager)
 
 # Controller
