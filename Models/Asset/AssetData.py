@@ -3,9 +3,6 @@ from collections import deque
 import datetime
 import pytz
 
-# Zeitzone für Berlin
-berlin_tz = pytz.timezone('Europe/Berlin')
-
 
 class AssetData:
     def __init__(self, timeFrame):
@@ -14,7 +11,7 @@ class AssetData:
         self.low = deque(maxlen=60)
         self.close = deque(maxlen=60)
         self.time = deque(maxlen=60)
-        self.timeStamp = datetime.datetime.now(berlin_tz)
+        self.timeStamp = datetime.datetime.now(pytz.utc)
         self.timeFrame = timeFrame
 
     def addData(self, openPrice, highPrice, lowPrice, closePrice, time):
@@ -34,7 +31,7 @@ class AssetData:
         self.low.clear()
         self.close.clear()
         self.time.clear()
-        self.timeStamp = datetime.datetime.now(berlin_tz)
+        self.timeStamp = datetime.datetime.now(pytz.utc)
 
     def toDict(self):
         """Gibt alle Datenpunkte als Dictionary zurück, inklusive timeStamp."""

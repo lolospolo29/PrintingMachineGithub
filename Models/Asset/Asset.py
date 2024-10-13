@@ -7,17 +7,17 @@ class Asset:
         self.strategyName = strategyName
         self.smtPairName = smtPairName
         self.brokerNameList = []
-        self.dataStorage = []
+        self.assetDataStorage = []
         self.strategyDataStorage = []
 
     def addNewTimeFrame(self, timeframe):
-        self.dataStorage.append(AssetData(timeframe))
+        self.assetDataStorage.append(AssetData(timeframe))
 
     def addNewBroker(self, brokerName):
         self.brokerNameList.append(brokerName)
 
     def addData(self, timeFrame, open, high, low, close, time):
-        for assetData in self.dataStorage:
+        for assetData in self.assetDataStorage:
             if assetData.timeFrame == timeFrame:
                 assetData.addData(open, high, low, close, time)
                 break
@@ -25,25 +25,28 @@ class Asset:
     def addStrategyData(self, strategyData):
         self.strategyDataStorage.append(strategyData)
 
-    def getAllTimeFrames(self):
-        """Gibt eine Liste aller timeFrames zurück, die in dataStorage gespeichert sind."""
-        return [assetData.timeFrame for assetData in self.dataStorage]
+    def clearAllData(self):
+        for assetData in self.assetDataStorage:
+            assetData.clearData()
 
-    def timeFrameDataStorageDict(self, timeframe):
-        for assetData in self.dataStorage:
+    def timeFrameDataToDict(self, timeframe):
+        for assetData in self.assetDataStorage:
             if assetData.timeFrame == timeframe:
                 return assetData.toDict()
 
-    def clearAllData(self):
-        for assetData in self.dataStorage:
-            assetData.clearData()
+    def getAllTimeFrames(self):
+        """Gibt eine Liste aller timeFrames zurück, die in dataStorage gespeichert sind."""
+        return [assetData.timeFrame for assetData in self.assetDataStorage]
+
+    def getStrategyData(self):
+        return self.strategyDataStorage
 
     def getHistoricalData(self, timeframe, numberOfDataPoints):
         """
         Fetch the last 'number_of_data_points' for the given timeframe.
         This is useful for retrieving historical data for analysis.
         """
-        for assetData in self.dataStorage:
+        for assetData in self.assetDataStorage:
             if assetData.timeFrame == timeframe:
                 # Ensure we don't request more data than we have
                 available_data_points = min(len(assetData.open), numberOfDataPoints)

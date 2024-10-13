@@ -3,6 +3,18 @@ from abc import ABC, abstractmethod
 
 class IStrategy(ABC):
     @abstractmethod
+    def addAsset(self, assetName):
+        pass
+
+    @abstractmethod
+    def AddEntryStrategy(self, entryStrategy):
+        pass
+
+    @abstractmethod
+    def AddExitStrategy(self, entryStrategy):
+        pass
+
+    @abstractmethod
     def isInTime(self):
         pass
 
@@ -14,6 +26,3 @@ class IStrategy(ABC):
     def getExit(self):
         pass
 
-    @abstractmethod
-    def isStrategyValid(self):
-        pass

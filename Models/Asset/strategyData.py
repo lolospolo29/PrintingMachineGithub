@@ -1,4 +1,4 @@
-class strategyData:
+class strategyData:  # DITO AssetData from DB
     def __init__(self, timeStamp, timeFrame):
         self.open = []
         self.high = []

@@ -1,13 +1,15 @@
 import datetime
 
+import pytz
+
 from Models.Asset.strategyData import strategyData
+from Models.Trade.Order import Order
 from Models.Trade.Trade import Trade
 from Models.TradingData import TradingData
 
 
 class DataMapper:
-    @staticmethod
-    def MapToClass(data, name):
+    def MapToClass(self, data, name):
         # If _id is present, handle it as needed (e.g., ignore or use it)
         # For this example, we'll just ignore it
 
@@ -22,17 +24,19 @@ class DataMapper:
             timeFrame = timeFrame.strip("'") if asset_value else None  # Remove single quotes from asset
 
             # Handle time
-            current_time = datetime.datetime.now().strftime("%H:%M")
+            current_time_utc = datetime.datetime.now(pytz.utc)
+
+            formatted_time = current_time_utc.strftime("%H:%M")
 
             return TradingData(
-                    asset=asset_value,
-                    open=data.get('open'),
-                    close=data.get('close'),
-                    high=data.get('high'),
-                    low=data.get('low'),
-                    time=current_time,  # Use the formatted time
-                    timeFrame=timeFrame
-                    )
+                asset=asset_value,
+                open=data.get('open'),
+                close=data.get('close'),
+                high=data.get('high'),
+                low=data.get('low'),
+                time=formatted_time,  # Use the formatted time
+                timeFrame=timeFrame
+            )
         if name == "Trade":
             # Mappe die Daten auf das Trade-Objekt
             data = data.get("Trade")
@@ -52,9 +56,20 @@ class DataMapper:
             trade.pnl = data.get('pnl', 0)
 
             # Verarbeite die Order-Liste, falls vorhanden
-            trade.orders = data.get('orders')
+            orderJSON = data.get('orders')
+            for orderData in orderJSON:
+                trade.orders.append(self.MapToClass("order", orderData))
 
             return trade
+        if name == "order":
+            order = Order()
+            order.status = data.get('status')
+            order.id = data.get('id')
+            order.stopLoss = data.get('stopLoss')
+            order.takeProfit = data.get('takeProfit')
+            order.riskPercentage = data.get('riskPercentage')
+            order.broker = data.get('broker')
+            return order
         if name == "strategyData":
             asset_data = data.get("AssetData")
             if not asset_data:
