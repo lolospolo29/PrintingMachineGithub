@@ -7,8 +7,13 @@ class TradeManager:
         self._Monitoring = Monitoring
         self._DataMapper = DataMapper
 
-    def clearOpenTrades(self):
-        self.openTrades = []
+    def addTradeToDB(self, status, trade):
+        pass
+
+    def handleTrades(self):
+        pass
+        # for trade in Trades:
+        #     strategy = self._StrategyFactory.returnClass(trade.strategy)
 
     def findOpenTrades(self):
         assets = self._AssetManager.returnAssets()
@@ -36,3 +41,6 @@ class TradeManager:
                 tradeData = trade.toDict()
                 self._MongoDBTrades.add("ClosedTrades", tradeData)
                 self.openTrades.remove(trade)
+
+    def clearOpenTrades(self):
+        self.openTrades = []

@@ -7,11 +7,15 @@ class IStrategy(ABC):
         pass
 
     @abstractmethod
-    def AddEntryStrategy(self, entryStrategy):
+    def addEntryStrategy(self, entryStrategy):
         pass
 
     @abstractmethod
-    def AddExitStrategy(self, entryStrategy):
+    def addExitStrategy(self, entryStrategy):
+        pass
+
+    @abstractmethod
+    def updatePDArrays(self, newPDArray):
         pass
 
     @abstractmethod
@@ -25,4 +29,3 @@ class IStrategy(ABC):
     @abstractmethod
     def getExit(self):
         pass
-

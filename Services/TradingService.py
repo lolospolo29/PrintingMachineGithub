@@ -3,8 +3,6 @@ import time
 
 import pytz
 
-from Models.Asset.Asset import Asset
-
 ny_tz = pytz.timezone('America/New_York')
 
 
@@ -32,31 +30,16 @@ class TradingService:
                 # Dies wird nur einmal um 04:00 Uhr ausgeführt
                 self._TradeManager.clearOpenTrades()
                 self._TradeManager.findOpenTrades()
-                self.dailyDataArchive()
-                self.RecentDataRetriever()
                 self.lock_active = False  # Lock wieder deaktivieren nach der Ausführung
+
             else:
                 while self.lock_active:
                     time.sleep(1)
         else:
             while self.lock_active:
                 time.sleep(1)
-
-    def handleTrades(self):
-        pass
-        # for trade in Trades:
-        #     strategy = self._StrategyFactory.returnClass(trade.strategy)
-
-    def addTradeToDB(self, status, trade):
-        pass
-
-    @staticmethod
-    def handleExit():
-        return None
-
-    @staticmethod
-    def handleEntry():
-        return None
+            self.dailyDataArchive()
+            self.RecentDataRetriever()
 
     def RecentDataRetriever(self):
         assets = self._AssetManager.returnAssets()

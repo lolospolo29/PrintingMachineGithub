@@ -1,4 +1,4 @@
-from Interfaces.PDArray import PDArray
+from Interfaces.Strategy.PDArray import PDArray
 
 
 class FVG(PDArray):

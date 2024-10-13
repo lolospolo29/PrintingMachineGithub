@@ -2,19 +2,25 @@ from Models.Asset.AssetData import AssetData
 
 
 class Asset:
-    def __init__(self, name, strategyName, smtPairName):
+    def __init__(self, name, strategyName):
         self.name = name
         self.strategyName = strategyName
-        self.smtPairName = smtPairName
+        self.smtPairNameList = []
         self.brokerNameList = []
         self.assetDataStorage = []
         self.strategyDataStorage = []
 
+    def addSMTPairName(self,smtPairName):
+        self.smtPairNameList.append(smtPairName)
+        print(smtPairName + ": added to " + self.name)
+
     def addNewTimeFrame(self, timeframe):
         self.assetDataStorage.append(AssetData(timeframe))
+        print(timeframe + ": added to " + self.name)
 
     def addNewBroker(self, brokerName):
         self.brokerNameList.append(brokerName)
+        print(brokerName + ": added to " + self.name)
 
     def addData(self, timeFrame, open, high, low, close, time):
         for assetData in self.assetDataStorage:

@@ -1,4 +1,4 @@
-from Interfaces.IOpenings import IOpenings
+from Interfaces.Strategy.IOpenings import IOpenings
 
 
 class NWOG(IOpenings):

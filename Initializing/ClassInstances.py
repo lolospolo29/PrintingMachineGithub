@@ -5,24 +5,29 @@ from Services.Manager.AssetManager import AssetManager
 from Services.Manager.StrategyManager import StrategyManager
 from Services.Manager.TradeManager import TradeManager
 from Services.TradingService import TradingService
-from TechnicalModels.BrokerModels.TestBroker import TestBroker
+from TechnicalModels.BrokerModels.Bybit import Bybit
 from TechnicalModels.DBModels.MongoDB import DBService
 from TechnicalModels.Mapper.DataMapper import DataMapper
 from Monitoring.Monitoring import Monitoring
 from Services.Helper.SecretsManager import SecretsManager
 from Services.Manager.RiskManager import RiskManager
 
+
+# Broker
+bybit = Bybit("Bybit")
+
+# Strategy
+fvgSession = FVGSession("FVGSession")
+
 # Asset
-btc = Asset("BTCUSDT.P", "FVG", "USDT")
+btc = Asset("BTCUSDT.P", fvgSession.name)
+
+btc.addSMTPairName("USDT")
+btc.addNewBroker(bybit.name)
+btc.addNewTimeFrame("5M")
 
 # Mapper
 dataMapper = DataMapper()
-
-# Broker
-tstBroker = TestBroker("Bybit")
-
-# Strategy
-fvg = FVGSession("FVG")
 
 # Monitoring
 
@@ -49,7 +54,8 @@ riskManager = RiskManager(2, 1)
 
 tradeManager = TradeManager(assetManager, strategyManager, mongoDBTrades, monitoring, dataMapper)
 
-tradingService = TradingService(monitoring, mongoDBData, mongoDBTrades, dataMapper, strategyManager, assetManager, tradeManager)
+tradingService = TradingService(monitoring, mongoDBData, mongoDBTrades, dataMapper, strategyManager, assetManager,
+                                tradeManager)
 
 # Controller
 
@@ -57,6 +63,5 @@ signalController = SignalControler(monitoring, tradingService)
 
 # Logic
 
-assetManager.createAsset(btc.name, fvg.name, "USDT")
-assetManager.addTimeframeToAsset("BTCUSDT.P", "5M")
+assetManager.addAsset(btc)
 # tradingService.findOpenTrades()

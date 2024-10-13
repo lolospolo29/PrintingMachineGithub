@@ -1,7 +1,7 @@
 from Interfaces.IBroker import IBroker
 
 
-class TestBroker(IBroker):
+class Bybit(IBroker):
 
     def __init__(self, name):
         self._name = name
